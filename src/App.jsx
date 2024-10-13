@@ -1,24 +1,23 @@
-import { useState, memo } from "react";
+import React, { Suspense, lazy } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Header from "./components/Header";
+const Home = lazy(() => import("./pages/Home"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  function handleClick() {
-    setCount(count + 1);
-  }
-
   return (
     <>
-      <button onClick={handleClick}>{`Click Me !! ${count}`}</button>
-      <Header title="Hi There 1" />
-      <Header title="Hi There 2" />
+      <BrowserRouter>
+        <Header />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Routes>
+        </Suspense>
+      </BrowserRouter>
     </>
   );
 }
-
-const Header = memo(function ({ title }) {
-  console.log("Header Rendered", title);
-  return <h1>{title}</h1>;
-});
 
 export default App;
