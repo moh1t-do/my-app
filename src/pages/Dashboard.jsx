@@ -1,5 +1,8 @@
+import { useCount } from "../context/CountContext";
+
 function Dashboard() {
-    return <h1>Dashboard</h1>;
+    const { increment } = useCount();
+    return <button onClick={increment}>increment</button>;
 }
 
 export default Dashboard;
