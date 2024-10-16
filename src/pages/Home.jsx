@@ -1,14 +1,23 @@
-import { useEffect } from "react";
-import { countState } from "../store/atoms/CountAtom";
+
+import { networkAtom, jobAtom, messagingAtom, notificationAtom, meSelector } from "../store/atoms/CountAtom";
 import { useRecoilValue } from "recoil"
 
 function Home() {
-    const count = useRecoilValue(countState);
-    useEffect(() => { 
-        
-    }, [])
-    console.log("rerender Home");
-    return <h1>{`Current count is ${count}`}</h1>;
+    const network = useRecoilValue(networkAtom);
+    const job = useRecoilValue(jobAtom);
+    const messaging = useRecoilValue(messagingAtom);
+    const notification = useRecoilValue(notificationAtom);
+    const me = useRecoilValue(meSelector);
+
+    return (
+        <div className="flex gap-4 items-center justify-between">
+            <button>My Network {network >= 100 ? "100+" : network}</button>
+            <button>Jobs {job}</button>
+            <button>Messaging {messaging}</button>
+            <button>Notification {notification}</button>
+            <button>Me {me}</button>
+        </div>
+    );
 }
 
 export default Home;
