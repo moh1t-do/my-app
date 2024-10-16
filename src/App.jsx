@@ -1,14 +1,14 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
-import { CountProvider } from "./context/CountContext";
+import { RecoilRoot } from "recoil";
 const Home = lazy(() => import("./pages/Home"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 
 function App() {
   return (
     <>
-      <CountProvider>
+      <RecoilRoot>
         <BrowserRouter>
           <Header />
           <Suspense fallback={<div>Loading...</div>}>
@@ -18,7 +18,7 @@ function App() {
             </Routes>
           </Suspense>
         </BrowserRouter>
-      </CountProvider>
+      </RecoilRoot>
     </>
   );
 }
