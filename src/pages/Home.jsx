@@ -1,21 +1,14 @@
 
 import { networkAtom, jobAtom, messagingAtom, notificationAtom, meSelector } from "../store/atoms/CountAtom";
+import { todoAtom } from "../store/atoms/todoAtom";
 import { useRecoilValue } from "recoil"
 
 function Home() {
-    const network = useRecoilValue(networkAtom);
-    const job = useRecoilValue(jobAtom);
-    const messaging = useRecoilValue(messagingAtom);
-    const notification = useRecoilValue(notificationAtom);
-    const me = useRecoilValue(meSelector);
+    const todos = useRecoilValue(todoAtom);
 
     return (
-        <div className="flex gap-4 items-center justify-between">
-            <button>My Network {network >= 100 ? "100+" : network}</button>
-            <button>Jobs {job}</button>
-            <button>Messaging {messaging}</button>
-            <button>Notification {notification}</button>
-            <button>Me {me}</button>
+        <div>
+            {todos.map((todo) => <div key={todo.id}>{JSON.stringify(todo)}</div>)}
         </div>
     );
 }
