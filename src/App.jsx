@@ -1,37 +1,32 @@
-import { useState, useEffect } from 'react'
-import axios from 'axios'
+import axios from "axios";
+import { Suspense, useEffect, useState } from "react";
 
-function useTodos(n) {
-  const [todos, setTodos] = useState([]);
-  const [loading, setLoading] = useState(true);
-
+function useDebounce(value, delay) {
+  const [data, setData] = useState([]);
   useEffect(() => {
-    const getTodos = async () => {
-      setLoading(true);
-      setTodos([]);
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      const res = await axios.get('https://jsonplaceholder.typicode.com/todos');
-      setTodos(res.data);
-      setLoading(false);
-    }
-    getTodos();
-    const interval = setInterval(getTodos, n * 1000);
-    return () => {
-      clearInterval(interval);
-      setTodos([]);
-    }
-  }, [n]);
+    setData([])
+    let timer;
+    clearInterval(timer);
+    timer = setTimeout(async () => {
+      const res = await axios.get(`https://jsonplaceholder.typicode.com/comments?postId=${value}`);
+      setData(res.data);
+    }, delay);
 
-  return { todos, loading };
+    return () => clearInterval(timer);
+  }, [value, delay]);
+
+  return data;
 }
 
 function App() {
-  const { todos, loading } = useTodos(4);
-
+  const [inputValue, setInputValue] = useState("");
+  const data = useDebounce(inputValue, 500);
   return (
     <>
-      {loading && <h1>Loading...</h1>}
-      {todos.map(todo => <div key={todo.id}>{todo.title}</div>)}
+      <input placeholder="search" onChange={(e) => {
+        setInputValue(e.target.value)
+      }} value={inputValue}></input>
+      {data.map(todo => <div key={todo.id}>{todo.name}</div>)}
     </>
   );
 }
