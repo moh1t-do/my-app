@@ -1,20 +1,26 @@
 interface User {
+    id: number;
     name: string;
-    age: number;
+    age: Number;
+    email: string;
+    password: string;
 }
 
-function sumOfAge(user1: User, user2: User): number {
-    return user1.age + user2.age;
+// pick
+type UpdateProps = Pick<User, 'name' | 'age' | 'email'>
+
+// partial
+type UpdatePropsOptional = Partial<UpdateProps>
+
+// readonly 
+const aman: Readonly<User> = {
+    id: 12,
+    name: 'Aman',
+    age: 13,
+    email: 'abac@gmail.com',
+    password: 'lkjll'
 }
 
-let John: User = {
-    name: "John",
-    age: 12,
+function updateUser(updateProps: UpdateProps) {
+    console.log(`Name: ${updateProps.name}`);
 }
-
-let Sam: User = {
-    name: 'Sam',
-    age: 14
-}
-
-console.log(sumOfAge(John, Sam));
